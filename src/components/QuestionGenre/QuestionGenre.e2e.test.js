@@ -36,6 +36,7 @@ it(`User answer passed to callback is consistent with "userAnswer" prop`, () => 
   const userAnswer = [false, true, false, false];
 
   const genreQuestion = shallow(<QuestionGenre
+    renderPlayer={jest.fn()}
     onAnswer={onAnswer}
     question={question}
   />);
