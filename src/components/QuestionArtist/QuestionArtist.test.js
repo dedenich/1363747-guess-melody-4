@@ -27,6 +27,7 @@ it(`renders correctly`, () => {
   .create(<QuestionArtist
     question={mock}
     onAnswer={mockFn}
+    renderPlayer={() => {}}
   />)
   .toJSON();
   expect(tree).toMatchSnapshot();

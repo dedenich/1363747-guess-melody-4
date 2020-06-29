@@ -27,6 +27,7 @@ it(`renders correctly`, () => {
   .create(<QuestionGenre
     question={mock}
     onAnswer={mockFn}
+    renderPlayer={jest.fn()}
   />)
   .toJSON();
   expect(tree).toMatchSnapshot();

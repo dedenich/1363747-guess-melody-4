@@ -11,7 +11,7 @@ class QuestionGenre extends PureComponent {
   }
 
   render() {
-    const {question, onAnswer} = this.props;
+    const {onAnswer, question, renderPlayer} = this.props;
     const {answers: userAnswers} = this.state;
     const {
       answers,
@@ -47,12 +47,7 @@ class QuestionGenre extends PureComponent {
             }}>
             {answers.map((answer, i) => (
               <div key={`${i}-${answer.src}`} className="track">
-                <button className="track__button track__button--play" type="button"/>
-                <div className="track__status">
-                  <audio
-                    src={answer.src}
-                  />
-                </div>
+                {renderPlayer(answer.src, i)}
                 <div className="game__answer">
                   <input className="game__input visually-hidden" type="checkbox" name="answer" value={`answer-${i}`}
                     id={`answer-${i}`}
@@ -87,6 +82,7 @@ QuestionGenre.propTypes = {
     type: PropTypes.oneOf([`artist`, `genre`]).isRequired,
   }).isRequired,
   onAnswer: PropTypes.func.isRequired,
+  renderPlayer: PropTypes.func.isRequired,
 };
 
 export default QuestionGenre;
