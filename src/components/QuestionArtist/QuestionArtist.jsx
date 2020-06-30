@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import {GameType} from "../../const.js";
 
 const QuestionArtist = (props) => {
-
-  const {onAnswer, question, renderPlayer} = props;
+  const {onAnswer, question} = props;
   const {
     song,
     answers,
@@ -14,7 +13,12 @@ const QuestionArtist = (props) => {
       <h2 className="game__title">Кто исполняет эту песню?</h2>
       <div className="game__track">
         <div className="track">
-          {renderPlayer(song.src, 0)}
+          <button className="track__button track__button--play" type="button" />
+          <div className="track__status">
+            <audio
+              src={song.src}
+            />
+          </div>
         </div>
       </div>
 
