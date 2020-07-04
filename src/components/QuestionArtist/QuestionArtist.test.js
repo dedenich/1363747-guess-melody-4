@@ -1,6 +1,7 @@
 import React from 'react';
 import QuestionArtist from './QuestionArtist';
 import renderer from 'react-test-renderer';
+import mockFn from "../../mocks/fn.js";
 
 const mock = {
   type: `artist`,
@@ -20,14 +21,12 @@ const mock = {
   }],
 };
 
-const mockFn = jest.fn();
-
 it(`renders correctly`, () => {
   const tree = renderer
   .create(<QuestionArtist
     question={mock}
     onAnswer={mockFn}
-    renderPlayer={() => {}}
+    renderPlayer={mockFn}
   />)
   .toJSON();
   expect(tree).toMatchSnapshot();

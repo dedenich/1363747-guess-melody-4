@@ -7,8 +7,10 @@ import QuestionArtist from "../QuestionArtist/QuestionArtist.jsx";
 import QuestionGenre from "../QuestionGenre/QuestionGenre.jsx";
 import WelcomeScreen from "../WelcomeScreen/WelcomeScreen.jsx";
 import {GameType} from "../../const.js";
-import withAudioPlayer from "../../hocs/with-audio-player/with-audio-player.js";
+import withAudioPlayer from "../../hocs/with-active-player/with-active-player.js";
 import GameScreen from "../game-screen/game-screen.jsx";
+import GameOverScreen from "../game-over-screen/game-over-screen.jsx";
+import WinScreen from "../win-screen/win-screen.jsx";
 
 const QuestionArtistWrapped = withAudioPlayer(QuestionArtist);
 const QuestionGenreWrapped = withAudioPlayer(QuestionGenre);
@@ -18,16 +20,36 @@ class App extends PureComponent {
     const {
       maxMistakes,
       questions,
+      mistakes,
       onUserAnswer,
       onWelcomeButtonClick,
       step,
+      resetGame,
     } = this.props;
     const question = questions[step];
-    if (step === -1 || step >= questions.length) {
+    if (step === -1) {
       return (
         <WelcomeScreen
           mistakesCount={maxMistakes}
           handleClick={onWelcomeButtonClick}
+        />
+      );
+    }
+
+    if (mistakes >= maxMistakes) {
+      return (
+        <GameOverScreen
+          onReplayButtonClick={resetGame}
+        />
+      );
+    }
+
+    if (step >= questions.length) {
+      return (
+        <WinScreen
+          questionsCount={questions.length}
+          mistakesCount={mistakes}
+          onReplayButtonClick={resetGame}
         />
       );
     }
@@ -87,13 +109,15 @@ App.propTypes = {
   onUserAnswer: PropTypes.func,
   onWelcomeButtonClick: PropTypes.func,
   step: PropTypes.number,
+  mistakes: PropTypes.number.isRequired,
+  resetGame: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   step: state.step,
   maxMistakes: state.maxMistakes,
   questions: state.questions,
-  a: state.a,
+  mistakes: state.mistakes,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -103,6 +127,9 @@ const mapDispatchToProps = (dispatch) => ({
   onUserAnswer(question, answer) {
     dispatch(ActionCreator.incrementMistake(question, answer));
     dispatch(ActionCreator.incrementStep());
+  },
+  resetGame() {
+    dispatch(ActionCreator.resetGame());
   },
 });
 

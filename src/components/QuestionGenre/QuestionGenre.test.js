@@ -1,6 +1,7 @@
 import React from 'react';
 import QuestionGenre from './QuestionGenre';
 import renderer from 'react-test-renderer';
+import mockFn from "../../mocks/fn.js";
 
 const mock = {
   type: `genre`,
@@ -20,14 +21,14 @@ const mock = {
   }],
 };
 
-const mockFn = jest.fn();
-
 it(`renders correctly`, () => {
   const tree = renderer
   .create(<QuestionGenre
     question={mock}
     onAnswer={mockFn}
     renderPlayer={jest.fn()}
+    onChange={() => {}}
+    userAnswers={[false, false, false, false]}
   />)
   .toJSON();
   expect(tree).toMatchSnapshot();
